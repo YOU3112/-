@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Tetris</title>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- PWA: Web App Manifest の追加 -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- PWA: Apple iOS向けの設定 (オプション - ホーム画面に追加した際のアイコンや表示) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- 適切なサイズのアイコンを指定してください。例: -->
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png"> 
 </head>
 <body>
     <div class="game-container">
@@ -17,6 +26,30 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- メインのJavaScriptファイルを読み込む -->
+    <!-- 以前の会話で app.js にリネームした前提で修正しています。
+         もし script.js のままなら、script.js に戻してください。 -->
+    <script src="app.js"></script>
+
+    <!-- PWA: Service Worker の登録スクリプト -->
+    <script>
+        // ブラウザがService Workerをサポートしているか確認
+        if ('serviceWorker' in navigator) {
+            // ページが完全に読み込まれた後にService Workerを登録
+            window.addEventListener('load', () => {
+                // Service Workerファイル (sw.js) を登録
+                // ここで指定するパスは、実際にService Workerファイルが配置されているパスと一致させる必要があります。
+                // あなたのリポジトリでは sw.js なので、そのように指定しています。
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker 登録成功:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('Service Worker 登録失敗:', err);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
+
